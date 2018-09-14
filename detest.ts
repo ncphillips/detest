@@ -5,8 +5,6 @@ export class Context {
 
   constructor(readonly description) {}
 
-  
-
   addTest(description: string, callback: () => void) {
     this.tests.push(new Test(description, callback))
   }
@@ -27,32 +25,37 @@ class Test {
 }
 
 export class TestRunner {
-  tabs(context: Context): string {
-    let t = ""
-    for (let i = 0; i < context.nestingLevel; i++) t += "  "
-    return t
-  }
-  log(context: Context, message: string) {
-    console.log(`${this.tabs(context)}${message}`)
-  }
-  logDescription(context) {
-    this.log(context, context.description)
-  }
   runTests(context: Context) {
+    let { logDescription, log } = new Logger(context)
     // Passing self to self
-    this.logDescription(context)
+    logDescription()
     context.tests.forEach((test: Test) => {
       try {
         test.run()
-        this.log(context, `  - ${test.description} (PASS)`)
+        log(`  - ${test.description} (PASS)`)
       } catch (e) {
-        this.log(context, `  - ${test.description} (FAIL)`)
+        log(`  - ${test.description} (FAIL)`)
       }
     })
 
     context.contexts.map(nestedContext => {
       this.runTests(nestedContext)
     })
+  }
+}
+
+class Logger {
+  constructor(private context: Context) {}
+  get tabs(): string {
+    let t = ""
+    for (let i = 0; i < this.context.nestingLevel; i++) t += "  "
+    return t
+  }
+  log = (message: string)=> {
+    console.log(`${this.tabs}${message}`)
+  }
+  logDescription = () => {
+    this.log(this.context.description)
   }
 }
 
