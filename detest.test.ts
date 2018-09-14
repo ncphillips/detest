@@ -8,6 +8,12 @@ context.addContext("nested context", context => {
   context.addTest("should be further indented", () => {})
 })
 
+context.addContext("nested context", context => {
+  context.addTest("should be further indented", () => {})
+  context.addContext("deeply nested context", context => {
+    context.addTest("should be eeeeven further indented", () => {})
+  })
+})
 let testRunner = new TestRunner()
 
 testRunner.runTests(context)
