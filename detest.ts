@@ -15,9 +15,7 @@ export class Context {
     console.log(`${this.tabs}${message}`)
   }
 
-  logDescription() {
-    this.log(this.description)
-  }
+  
 
   addTest(description: string, callback: () => void) {
     this.tests.push(new Test(description, callback))
@@ -39,9 +37,12 @@ class Test {
 }
 
 export class TestRunner {
+  logDescription(context) {
+    context.log(context.description)
+  }
   runTests(context: Context) {
     // Passing self to self
-    context.logDescription()
+    this.logDescription(context)
     context.tests.forEach((test: Test) => {
       try {
         test.run()
