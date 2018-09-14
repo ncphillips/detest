@@ -23,9 +23,11 @@ export class Context {
     this.tests.push(new Test(description, callback))
   }
 
-  addContext(context: Context) {
+  addContext(description: string, callback: (context: Context) => void) {
+    let context = new Context(description)
     context.nestingLevel = this.nestingLevel + 1
     this.contexts.push(context)
+    callback(context)
   }
 }
 
