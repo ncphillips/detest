@@ -1,0 +1,20 @@
+{
+  "name": "detest",
+  "version": "0.1.0",
+  "description": "Testing with Deno",
+  "main": "detest.ts",
+  "scripts": {
+    "test": "deno detest.test.ts"
+  },
+  "keywords": [
+    "deno",
+    "test",
+    "testing",
+    "typescript"
+  ],
+  "author": "ncphillips",
+  "license": "MIT",
+  "dependencies": {
+    "prettier": "^1.14.2"
+  }
+}
