@@ -5,16 +5,6 @@ export class Context {
 
   constructor(readonly description) {}
 
-  get tabs(): string {
-    let t = ""
-    for (let i = 0; i < this.nestingLevel; i++) t += "  "
-    return t
-  }
-
-  log(message: string) {
-    console.log(`${this.tabs}${message}`)
-  }
-
   
 
   addTest(description: string, callback: () => void) {
@@ -37,8 +27,16 @@ class Test {
 }
 
 export class TestRunner {
+  tabs(context: Context): string {
+    let t = ""
+    for (let i = 0; i < context.nestingLevel; i++) t += "  "
+    return t
+  }
+  log(context: Context, message: string) {
+    console.log(`${this.tabs(context)}${message}`)
+  }
   logDescription(context) {
-    context.log(context.description)
+    this.log(context, context.description)
   }
   runTests(context: Context) {
     // Passing self to self
@@ -46,9 +44,9 @@ export class TestRunner {
     context.tests.forEach((test: Test) => {
       try {
         test.run()
-        context.log(`  - ${test.description} (PASS)`)
+        this.log(context, `  - ${test.description} (PASS)`)
       } catch (e) {
-        context.log(`  - ${test.description} (FAIL)`)
+        this.log(context, `  - ${test.description} (FAIL)`)
       }
     })
 
