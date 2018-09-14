@@ -25,18 +25,17 @@ class Test {
 }
 
 export class TestRunner {
-  logger: Logger = new Logger()
+  logger: ContextLogger = new ContextLogger()
   runTests(context: Context) {
     this.logger.context = context
-    // Passing self to self
     this.logger.logDescription()
 
     context.tests.forEach((test: Test) => {
       try {
         test.run()
-        this.logger.log(`  - ${test.description} (PASS)`)
+        this.logger.logPassingTest(test)
       } catch (e) {
-        this.logger.log(`  - ${test.description} (FAIL)`)
+        this.logger.logFailingTest(test)
       }
     })
 
@@ -46,27 +45,36 @@ export class TestRunner {
   }
 }
 
-class Logger {
+class ContextLogger {
   public context: Context | null = null
+ 
+  logDescription() {
+    this.log(this.context.description)
+  }
 
-  get nestingLevel() {
+  logPassingTest(test: Test) {
+    this.log(`  - ${test.description} (PASS)`)
+  }
+
+  logFailingTest(test: Test) {
+    this.log(`  - ${test.description} (FAIL)`)
+  }
+ 
+  private get nestingLevel() {
     if (!this.context) return 0
     return this.context.nestingLevel
   }
 
-  get tabs(): string {
+  private get tabs(): string {
     let t = ""
     for (let i = 0; i < this.context.nestingLevel; i++) t += "  "
     return t
   }
 
-  log = (message: string) => {
+  private log(message: string) {
     console.log(`${this.tabs}${message}`)
   }
 
-  logDescription = () => {
-    this.log(this.context.description)
-  }
 }
 
 export function expect<T = any>(actual: T) {
