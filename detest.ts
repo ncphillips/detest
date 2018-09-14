@@ -1,12 +1,8 @@
-interface Test {
-  description: string
-  callback: () => void
-}
-
 export class Context {
   tests: Test[] = []
   contexts: Context[] = []
   nestingLevel = 0
+
   constructor(readonly description) {}
 
   get tabs(): string {
@@ -24,15 +20,19 @@ export class Context {
   }
 
   addTest(description: string, callback: () => void) {
-    this.tests.push({
-      description,
-      callback,
-    })
+    this.tests.push(new Test(description, callback))
   }
 
   addContext(context: Context) {
     context.nestingLevel = this.nestingLevel + 1
     this.contexts.push(context)
+  }
+}
+
+class Test {
+  constructor(readonly description, private callback: () => void) {}
+  run() {
+    this.callback()
   }
 }
 
@@ -42,14 +42,16 @@ export class TestRunner {
     context.logDescription()
     context.tests.forEach((test: Test) => {
       try {
-        test.callback()
+        test.run()
         context.log(`  - ${test.description} (PASS)`)
       } catch (e) {
         context.log(`  - ${test.description} (FAIL)`)
       }
     })
 
-    context.contexts.map(this.runTests)
+    context.contexts.map(nestedContext => {
+      this.runTests(nestedContext)
+    })
   }
 }
 
