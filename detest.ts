@@ -1,28 +1,7 @@
-export class Context {
-  tests: Test[] = []
-  contexts: Context[] = []
-  nestingLevel = 0
+import { Test } from "./src/test.ts"
+import { Context } from "./src/context.ts"
 
-  constructor(readonly description) {}
-
-  addTest(description: string, callback: () => void) {
-    this.tests.push(new Test(description, callback))
-  }
-
-  addContext(description: string, callback: (context: Context) => void) {
-    let context = new Context(description)
-    context.nestingLevel = this.nestingLevel + 1
-    this.contexts.push(context)
-    callback(context)
-  }
-}
-
-class Test {
-  constructor(readonly description, private callback: () => void) {}
-  run() {
-    this.callback()
-  }
-}
+export { Context } 
 
 export class TestRunner {
   logger: ContextLogger = new ContextLogger()
