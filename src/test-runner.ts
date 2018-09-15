@@ -9,9 +9,12 @@ export class TestRunner {
     this.logger.context = context
     this.logger.logDescription()
 
-    context.tests.forEach((test: Test) => {
+    context.tests.forEach(async (test: Test) => {
       try {
-        test.run()
+        let promise: Promise<void> | void = test.run()
+        if (promise) {
+          await promise
+        }
         this.logger.logPassingTest(test)
       } catch (e) {
         this.logger.logFailingTest(test)

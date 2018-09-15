@@ -1,6 +1,7 @@
+
 export class Test {
-  constructor(readonly description, private callback: () => void) {}
+  constructor(readonly description, private callback: () => Promise<void> | void) {}
   run() {
-    this.callback()
+    return this.callback()
   }
 }

@@ -23,6 +23,24 @@ describe("suite 2", () => {
   it("shold be okay", () => {})
 })
 
+
+describe("asnyc tests", () => {
+  it("should pass", async () => {
+    let num = await waitForNumber()
+
+    expect(num).toBe(42)
+  })
+  it("should fail", async () => {
+    let num = await waitForNumber()
+
+    expect(num).toBe(0)
+  })
+
+})
+
+function waitForNumber() {
+  return new Promise(resolve => setTimeout(resolve.bind(this, 42), 100))
+}
+
 runTests()
 
-console.log(Observable:
