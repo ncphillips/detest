@@ -5,25 +5,24 @@ import { ContextLogger } from "./context-logger.ts"
 
 export class TestRunner {
   logger: ContextLogger = new ContextLogger()
-  runTests(context: Context) {
+  async runTests(context: Context) {
     this.logger.context = context
     this.logger.logDescription()
 
     context.befores.forEach(before => before())
-    context.tests.forEach(async (test: Test) => {
+    for (let i = 0; i < context.tests.length; i++) {
+      let test = context.tests[i]
       try {
-        let promise: Promise<void> | void = test.run()
-        if (promise) {
-          await promise
-        }
+        await test.run()
         this.logger.logPassingTest(test)
       } catch (e) {
         this.logger.logFailingTest(test)
       }
-    })
+    }
 
-    context.contexts.map(nestedContext => {
-      this.runTests(nestedContext)
-    })
+    for (let i = 0; i < context.contexts.length; i++) {
+      let nestedContext = context.contexts[i]
+      await this.runTests(nestedContext)
+    }
   }
 }
