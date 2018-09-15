@@ -3,24 +3,9 @@ import { Context } from "./src/context.ts"
 import { TestRunner } from "./src/test-runner.ts"
 export { Context } from "./src/context.ts"
 export { TestRunner } from "./src/test-runner.ts"
+export { expect } from "./src/expect.ts"
 
 
-export function expect<T = any>(actual: T) {
-  return new DeferredExpectation<T>(actual)
-}
-
-class DeferredExpectation<T> {
-  constructor(private actual: T) {}
-  toBe(expected: T) {
-    if (expected !== this.actual) {
-      throw new ExpectationError(`Expected ${expected} but received ${this.actual}. `)
-    }
-  }
-}
-
-class ExpectationError extends Error {
-  name = "Expectation Error"
-}
 
 /**
  * In order to make the describe-it syntax work with
