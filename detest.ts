@@ -31,7 +31,7 @@ class ExpectationError extends Error {
  * concern that tests may at times end up in the 
  * wrong context.
  */
-let { describe, it, before, test, context } = (() => {
+let { describe, it, before, beforeEach, test, context } = (() => {
   let activeContext = new Context("")
 
   /**
@@ -57,14 +57,17 @@ let { describe, it, before, test, context } = (() => {
 
   function before(callback: () => void) {
     activeContext.addBefore(callback)
-
   }
 
-  return { describe, it, test: it, before, context: activeContext }
+  function beforeEach(callback: () => void) {
+    activeContext.addBeforeEach(callback)
+  }
+
+  return { describe, it, test: it, before, context: activeContext, beforeEach }
 })()
 
 
-export { describe, it, test, before } 
+export { describe, it, test, before, beforeEach } 
 
 /**
  * For now this method must be explicitly called.

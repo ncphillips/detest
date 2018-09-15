@@ -13,6 +13,7 @@ export class TestRunner {
     for (let i = 0; i < context.tests.length; i++) {
       let test = context.tests[i]
       try {
+        context.beforeEachs.forEach(beforeEach => beforeEach())
         await test.run()
         this.logger.logPassingTest(test)
       } catch (e) {

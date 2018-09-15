@@ -3,6 +3,7 @@ import { Test } from "./test.ts"
 type Before = () => void
 export class Context {
   befores: Before[] = []
+  beforeEachs: Before[] = []
   tests: Test[] = []
   contexts: Context[] = []
   nestingLevel = 0
@@ -24,4 +25,7 @@ export class Context {
     this.befores.push(before)
   }
 
+  addBeforeEach = (beforeEach: Before) => {
+    this.beforeEachs.push(beforeEach)
+  }
 }

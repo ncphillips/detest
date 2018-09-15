@@ -1,4 +1,4 @@
-import { expect, runTests, describe, it, test, before } from "./detest.ts"
+import { expect, runTests, describe, it, test, before, beforeEach } from "./detest.ts"
 
 describe("suite 1", () => {
   it("should pass", () => {
@@ -23,7 +23,6 @@ describe("suite 2", () => {
   it("shold be okay", () => {})
 })
 
-
 describe("asnyc tests", () => {
   it("should pass", async () => {
     let num = await waitForNumber()
@@ -35,7 +34,6 @@ describe("asnyc tests", () => {
 
     expect(num).toBe(0)
   })
-
 })
 
 describe("before", () => {
@@ -51,9 +49,22 @@ describe("multiple before", () => {
   test("a === 2", () => expect(a).toBe(2))
 })
 
+describe("beforeEach", () => {
+  let a = 0
+  beforeEach(() => (a = 1))
+  test("a === 1 should pass", () => {
+    expect(a).toBe(1)
+    a++
+  })
+  test("a === 2 should fail", () => {
+    expect(a).toBe(2)
+    a++
+  })
+  test("a === 1 should pass again", () => expect(a).toBe(1))
+})
+
 function waitForNumber() {
   return new Promise(resolve => setTimeout(resolve.bind(this, 42), 100))
 }
 
 runTests()
-
