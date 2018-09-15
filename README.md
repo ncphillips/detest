@@ -49,22 +49,6 @@ describe("testing", () => {
 runTest()
 ```
 
-Output:
-
-```
-adding numbers
-  - it works (PASS)
-  positive numbers
-    - 1 + 1 (PASS)
-    - 1 + 2 (PASS)
-    - 1 + 3 (FAIL)
-  negative numbers
-    - 1 + -1 (PASS)
-    - 1 + -2 (FAIL)
-    - 1 + -3 (PASS)
-  
-```
-
 ### API
 
 * `function describe(description: string, callback: () => void): void`
@@ -74,7 +58,7 @@ adding numbers
 * `function beforeEach(callback: () => void): void`
 * `function expect(actual: any): DeferredExpectation`
 * `class DeferredExpectation`
-  * `toBe(expected: any)`u
+  * `toBe(expected: any)`
 
 ## Development
 
@@ -88,3 +72,4 @@ deno detest.test.ts
 
 * after/afterEach
 * expand expectation library
+* async before(Each)
