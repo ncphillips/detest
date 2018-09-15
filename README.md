@@ -9,17 +9,40 @@ A [Deno](https://github.com/denoland/deno) Testing Library
 ```typescript
 import { describe, it, test, runTests} from "./detest/detest.ts"
 
-describe("adding numbers", () => {
-  describe("positive numbers", () => {
-    test("1 + 1", () => expect(1 + 1).toBe(2))
-    test("1 + 2", () => expect(1 + 2).toBe(3))
-    test("1 + 3", () => expect(1 + 2).toBe(0))
-  })
+describe("testing", () => {
   it("works", () => { 1 + 1 })"
-  describe("positive numbers", () => {
+
+  describe("describes can be nested", () => {
     test("1 + -1", () => expect(1 + (-1)).toBe(0)) 
-    test("1 + -2", () => expect(1 + (-2)).toBe(-5)) 
     test("1 + -3", () => expect(1 + (-3)).toBe(-2)) 
+  })
+
+  describe("async testing", () => {
+    it("is also possible", async () => {
+      let value = await fetchValue()
+
+      expect(value).toBe("found")
+    })
+  })
+
+  describe("before(each)", () => {
+    let setupValue
+    let resets
+
+    before(() => {
+      setupValue = 12345
+    })
+
+    beforeEach(() => {
+      resets = 0
+    })
+
+    it("should be 0", () => { 
+      expect(resets).toBe(0)
+
+      resets++
+    })
+    it("should still be 0", () => expect(resets).toBe(0))
   })
 })
 
@@ -42,16 +65,16 @@ adding numbers
   
 ```
 
-### describe
+### API
 
-
-
-### it
-
-### runTest
-
-### expect
-
+* `function describe(description: string, callback: () => void): void`
+* `function it(description: string, callback: () => void | Promise<void>): void`
+* `function test`: Alias for `it`.
+* `function before(callback: () => void): void`
+* `function beforeEach(callback: () => void): void`
+* `function expect(actual: any): DeferredExpectation`
+* `class DeferredExpectation`
+  * `toBe(expected: any)`u
 
 ## Development
 
@@ -63,7 +86,5 @@ deno detest.test.ts
 
 ## Roadmap
 
-* Async `it`/`test` callbacks
-* before/after 
-* beforeEach/afterEach
+* after/afterEach
 * expand expectation library
