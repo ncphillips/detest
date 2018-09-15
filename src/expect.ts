@@ -3,7 +3,7 @@ export function expect<T = any>(actual: T) {
 }
 
 class DeferredExpectation<T> {
-  _not: boolean = false
+  private shouldBeTrue: boolean = true 
   constructor(private actual: T) {}
 
   toBe(expected: T) {
@@ -14,8 +14,8 @@ class DeferredExpectation<T> {
   }
 
   toBeNull() {
-    if (this.check(this.actual !== null)) {
-      throw new ToBeNullError(this.actual, this._not)
+    if (!this.check(this.actual === null)) {
+      throw new ToBeNullError(this.actual, this.shouldBeTrue)
     }
   }
 
@@ -27,18 +27,22 @@ class DeferredExpectation<T> {
   }
 
   get not() {
-    this._not = true
+    this.shouldBeTrue = false
     return this
   }
 
   private checkAndThrow(isGood: boolean, failureMessage: string) {
-    if (!(isGood && !this._not) && !(!isGood && this._not)) {
+    if (!this.check(isGood)) {
       throw new ExpectationError(failureMessage)
     }
   }
 
   private check(isGood: boolean) {
-    return (isGood && !this._not) || (!isGood && this._not)
+    let trueAndShouldBe = isGood && this.shouldBeTrue
+
+    let falseAndShouldBe = !isGood && !this.shouldBeTrue
+
+    return trueAndShouldBe || falseAndShouldBe 
   }
 }
 
@@ -48,11 +52,11 @@ class ExpectationError extends Error {
 
 class ToBeNullError extends ExpectationError {
   name = "Expected to be null"
-  constructor(public actual: any, public not: boolean) {
+  constructor(public actual: any, public shouldBeTrue: boolean) {
     super()
   }
   get message() {
-    if (this.not) return "Expected value not to be null."
-    return `Expecte value to be null, but received ${this.actual}`
+    if (!this.shouldBeTrue) return "Expected value not to be null."
+    return `Expected value to be null, but received ${this.actual}`
   }
 }
