@@ -1,7 +1,7 @@
+type Run = () => void | Promise<void>
 
 export class Test {
-  constructor(readonly description, private callback: () => Promise<void> | void) {}
-  run() {
-    return this.callback()
+  constructor(readonly description, readonly run: Run) {
+    //
   }
 }
