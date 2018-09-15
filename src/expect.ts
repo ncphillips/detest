@@ -14,10 +14,7 @@ class DeferredExpectation<T> {
   }
 
   toBeNull() {
-    let isGood = this.actual === null
-    let failureMessage = `Expected ${this.actual} to be null.`
-
-    if (this.check(isGood)) {
+    if (this.check(this.actual !== null)) {
       throw new ToBeNullError(this.actual, this._not)
     }
   }
@@ -41,7 +38,7 @@ class DeferredExpectation<T> {
   }
 
   private check(isGood: boolean) {
-    return !(isGood && !this._not) && !(!isGood && this._not)
+    return (isGood && !this._not) || (!isGood && this._not)
   }
 }
 
