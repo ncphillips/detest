@@ -68,6 +68,9 @@ describe("expectations", () => {
     test("expect(1).toBe(2) should pass", () => {
       expect(1).not.toBe(2)
     })
+    test("expect(2).toBe(2) should fail", () => {
+      expect(2).not.toBe(2)
+    })
   })
   describe("toBeNull", () => {
     test("expect(null).toBeNull() should pass", () => expect(null).toBeNull())

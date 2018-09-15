@@ -17,7 +17,7 @@ export class TestRunner {
         await test.run()
         this.logger.logPassingTest(test)
       } catch (e) {
-        this.logger.logFailingTest(test)
+        this.logger.logFailingTest(test, e)
       }
     }
 

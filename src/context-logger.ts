@@ -5,15 +5,18 @@ export class ContextLogger {
   public context: Context | null = null
  
   logDescription() {
-    this.log(this.context.description)
+    if (this.context) {
+      this.log(this.context.description)
+    }
   }
 
   logPassingTest(test: Test) {
     this.log(`  - ${test.description} (PASS)`)
   }
 
-  logFailingTest(test: Test) {
+  logFailingTest(test: Test, e: Error) {
     this.log(`  - ${test.description} (FAIL)`)
+    this.log(`      ERROR: ${e.message}`)
   }
  
   private get nestingLevel() {
