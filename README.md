@@ -37,8 +37,8 @@ adding numbers
     - 1 + 3 (FAIL)
   negative numbers
     - 1 + -1 (PASS)
-    - 1 + 2 (FAIL)
-    - 1 + 3 (PASS)
+    - 1 + -2 (FAIL)
+    - 1 + -3 (PASS)
   
 ```
 
@@ -60,3 +60,10 @@ Run Tests
 ```bash
 deno detest.test.ts
 ```
+
+## Roadmap
+
+* Async `it`/`test` callbacks
+* before/after 
+* beforeEach/afterEach
+* expand expectation library

@@ -24,3 +24,5 @@ describe("suite 2", () => {
 })
 
 runTests()
+
+console.log(Observable:
