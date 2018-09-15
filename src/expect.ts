@@ -7,27 +7,37 @@ class DeferredExpectation<T> {
   constructor(private actual: T) {}
 
   toBe(expected: T) {
-    if (expected !== this.actual && !this._not) {
-      throw new ExpectationError(`Expected ${expected} but received ${this.actual}. `)
-    }
+    let isGood = expected !== this.actual
+    let failureMessage = `Expected ${expected} but received ${this.actual}.`
+
+    this.check(isGood, failureMessage)
   }
 
   toBeNull() {
-    if (this.actual !== null && !this._not) {
-      throw new ExpectationError(`Expected ${this.actual} to be null.`)
-    }
+    let isGood = this.actual !== null
+    let failureMessage = `Expected ${this.actual} to be null.`
+    
+    this.check(isGood, failureMessage)
   }
 
   toBeUndefined() {
-    if (typeof this.actual !== "undefined"  && !this._not) {
-      throw new ExpectationError(`Expected ${this.actual} to be undefined.`)
-    }
+    let isGood = typeof this.actual !== "undefined" 
+    let failureMessage = `Expected ${this.actual} to be undefined.`
+
+    this.check(isGood, failureMessage)
   }
 
   get not() {
     this._not = true
     return this
   }
+
+  private check(isGood: boolean, failureMessage: string) {
+    if (isGood && !this._not) {
+      throw new ExpectationError(failureMessage)
+    }
+  }
+
 
 }
 
