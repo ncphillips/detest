@@ -5,62 +5,65 @@ export { Context } from "./src/context.ts"
 export { TestRunner } from "./src/test-runner.ts"
 export { expect } from "./src/expect.ts"
 
-
-
 /**
  * In order to make the describe-it syntax work with
  * lamda functions, we must track the current context
- * using a closure. 
+ * using a closure.
  *
- * Althoug describes are not async, I have a bit of a 
- * concern that tests may at times end up in the 
+ * Althoug describes are not async, I have a bit of a
+ * concern that tests may at times end up in the
  * wrong context.
  */
-let { describe, it, before, beforeEach, test, context } = (() => {
-  let activeContext = new Context("")
+class TestingFramework {
+  context: Context
+  activeContext: Context
 
-  /**
-   * Nests a new Context
-   */
-  function describe(description: string, callback: () => void) {
-    let parentContext: Context = activeContext
+  constructor() {
+    this.context = new Context("")
+    this.activeContext = this.context
+  }
+
+  describe = (description: string, callback: () => void) => {
+    let parentContext: Context = this.activeContext
 
     parentContext.addContext(description, ctx => {
-      activeContext = ctx
+      this.activeContext = ctx
       callback()
     })
 
-    activeContext = parentContext
+    this.activeContext = parentContext
   }
 
-  /**
-   * Adds a test to the current context.
-   */
-  function it(description: string, callback: () => void) {
-    activeContext.addTest(description, callback)
+  it = (description: string, callback: () => void) => {
+    this.activeContext.addTest(description, callback)
   }
 
-  function before(callback: () => void) {
-    activeContext.addBefore(callback)
+  test = (description: string, callback: () => void) => {
+    this.it(description, callback)
   }
 
-  function beforeEach(callback: () => void) {
-    activeContext.addBeforeEach(callback)
+  before = (callback: () => void) => {
+    this.activeContext.addBefore(callback)
   }
 
-  return { describe, it, test: it, before, context: activeContext, beforeEach }
-})()
+  beforeEach = (callback: () => void) => {
+    this.activeContext.addBeforeEach(callback)
+  }
 
+  runTests = () => {
+    new TestRunner().runTests(this.context)
+  }
+}
 
-export { describe, it, test, before, beforeEach } 
+let { describe, it, before, beforeEach, test, runTests } = new TestingFramework()
+
+export { describe, it, test, before, beforeEach, runTests }
 
 /**
  * For now this method must be explicitly called.
  *
- * Once Deno progresses (or I learn how to use it better) this 
+ * Once Deno progresses (or I learn how to use it better) this
  * will be ba commandline tool, and this will be mostly be
  * an internal function.
  */
-export function runTests() {
-  new TestRunner().runTests(context)
-}
+
