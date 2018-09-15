@@ -44,6 +44,13 @@ describe("before", () => {
   test("a === 1", () => expect(a).toBe(1))
 })
 
+describe("multiple before", () => {
+  let a: number
+  before(() => (a = 1))
+  before(() => (a = 2))
+  test("a === 2", () => expect(a).toBe(2))
+})
+
 function waitForNumber() {
   return new Promise(resolve => setTimeout(resolve.bind(this, 42), 100))
 }
