@@ -23,7 +23,7 @@ export class ContextLogger {
 
   private get tabs(): string {
     let t = ""
-    for (let i = 0; i < this.context.nestingLevel; i++) t += "  "
+    for (let i = 1; i < this.context.nestingLevel; i++) t += "  "
     return t
   }
 

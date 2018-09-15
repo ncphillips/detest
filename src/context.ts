@@ -7,11 +7,11 @@ export class Context {
 
   constructor(readonly description) {}
 
-  addTest(description: string, callback: () => void) {
+  addTest = (description: string, callback: () => void) => {
     this.tests.push(new Test(description, callback))
   }
 
-  addContext(description: string, callback: (context: Context) => void) {
+  addContext = (description: string, callback: (context: Context) => void) => {
     let context = new Context(description)
     context.nestingLevel = this.nestingLevel + 1
     this.contexts.push(context)

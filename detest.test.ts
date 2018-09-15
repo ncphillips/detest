@@ -1,20 +1,26 @@
-import { expect, Context, TestRunner } from "./detest.ts"
+import { expect, runTests, describe, it } from "./detest.ts"
 
-let context = new Context("example tests")
-
-context.addTest("should pass", () => expect(1 + 1).toBe(2))
-context.addTest("should fail", () => expect(1 + 2).toBe(2))
-context.addContext("nested context", context => {
-  context.addTest("should be further indented", () => {})
-})
-
-context.addContext("nested context", context => {
-  context.addTest("should be further indented", () => {})
-  context.addContext("deeply nested context", context => {
-    context.addTest("should be eeeeven further indented", () => {})
+describe("suite 1", () => {
+  it("should pass", () => {
+    expect(1).toBe(1)
+  })
+  it("should fail", () => {
+    expect(1).toBe(2)
+  })
+  describe("two", () => {
+    it("should fail", () => {
+      expect(1).toBe(2)
+    })
+    describe("three", () => {
+      it("should pass", () => {
+        expect(2).toBe(2)
+      })
+    })
   })
 })
 
-let testRunner = new TestRunner()
+describe("suite 2", () => {
+  it("shold be okay", () => {})
+})
 
-testRunner.runTests(context)
+runTests()
