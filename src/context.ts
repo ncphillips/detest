@@ -6,18 +6,18 @@ export class Context {
   beforeEachs: Before[] = []
   tests: Test[] = []
   contexts: Context[] = []
-  nestingLevel = 0
 
-  constructor(readonly description) {}
+  constructor(readonly description: string, private nestingLevel = 0) {}
 
   addTest = (description: string, callback: () => void) => {
     this.tests.push(new Test(description, callback))
   }
 
   addContext = (description: string, callback: (context: Context) => void) => {
-    let context = new Context(description)
-    context.nestingLevel = this.nestingLevel + 1
+    let context = new Context(description, this.nestingLevel + 1)
+
     this.contexts.push(context)
+
     callback(context)
   }
 
