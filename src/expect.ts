@@ -11,10 +11,18 @@ class DeferredExpectation<T> {
       throw new ExpectationError(`Expected ${expected} but received ${this.actual}. `)
     }
   }
+
+  toBeNull() {
+    if (this.actual !== null && !this._not) {
+      throw new ExpectationError(`Expected ${this.actual} to be Null but received.`)
+    }
+  }
+
   get not() {
     this._not = true
     return this
   }
+
 }
 
 class ExpectationError extends Error {

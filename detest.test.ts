@@ -69,6 +69,12 @@ describe("expectations", () => {
       expect(1).not.toBe(2)
     })
   })
+  describe("toBeNull", () => {
+    test("expect(null).toBeNull() should pass", () => expect(null).toBeNull())
+    test("expect(1).toBeNull() should fail", () => expect(1).toBeNull())
+    test("expect(undefined).toBeNull() should fail", () => expect(undefined).toBeNull())
+    test("expect([]).toBeNull() should fail", () => expect([]).toBeNull())
+  })
 })
 
 function waitForNumber() {
