@@ -63,6 +63,14 @@ describe("beforeEach", () => {
   test("a === 1 should pass again", () => expect(a).toBe(1))
 })
 
+describe("expectations", () => {
+  describe("not", () => {
+    test("expect(1).toBe(2) should pass", () => {
+      expect(1).not.toBe(2)
+    })
+  })
+})
+
 function waitForNumber() {
   return new Promise(resolve => setTimeout(resolve.bind(this, 42), 100))
 }
