@@ -14,7 +14,13 @@ class DeferredExpectation<T> {
 
   toBeNull() {
     if (this.actual !== null && !this._not) {
-      throw new ExpectationError(`Expected ${this.actual} to be Null but received.`)
+      throw new ExpectationError(`Expected ${this.actual} to be null.`)
+    }
+  }
+
+  toBeUndefined() {
+    if (typeof this.actual !== "undefined"  && !this._not) {
+      throw new ExpectationError(`Expected ${this.actual} to be undefined.`)
     }
   }
 

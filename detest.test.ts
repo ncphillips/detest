@@ -75,6 +75,12 @@ describe("expectations", () => {
     test("expect(undefined).toBeNull() should fail", () => expect(undefined).toBeNull())
     test("expect([]).toBeNull() should fail", () => expect([]).toBeNull())
   })
+  describe("toBeUndefined", () => {
+    test("expect(undefined).toBeUndefined() should pass", () => expect(undefined).toBeUndefined())
+    test("expect(null).toBeUndefined() should fail", () => expect(null).toBeUndefined())
+    test("expect(1).toBeUndefined() should fail", () => expect(1).toBeUndefined())
+    test("expect([]).toBeUndefined() should fail", () => expect([]).toBeUndefined())
+  })
 })
 
 function waitForNumber() {
