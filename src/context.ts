@@ -1,6 +1,8 @@
 import { Test } from "./test.ts"
 
+type Before = () => void
 export class Context {
+  befores: Before[] = []
   tests: Test[] = []
   contexts: Context[] = []
   nestingLevel = 0
@@ -17,4 +19,9 @@ export class Context {
     this.contexts.push(context)
     callback(context)
   }
+
+  addBefore = (before: Before) => {
+    this.befores.push(before)
+  }
+
 }

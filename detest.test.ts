@@ -1,4 +1,4 @@
-import { expect, runTests, describe, it } from "./detest.ts"
+import { expect, runTests, describe, it, test, before } from "./detest.ts"
 
 describe("suite 1", () => {
   it("should pass", () => {
@@ -36,6 +36,12 @@ describe("asnyc tests", () => {
     expect(num).toBe(0)
   })
 
+})
+
+describe("before", () => {
+  let a: number
+  before(() => (a = 1))
+  test("a === 1", () => expect(a).toBe(1))
 })
 
 function waitForNumber() {
