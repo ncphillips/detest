@@ -10,13 +10,21 @@ export class ContextLogger {
     }
   }
 
+  logTest(test: Test) {
+    if (test.status === "pass") {
+      this.logPassingTest(test)
+    } else {
+      this.logFailingTest(test)
+    }
+  }
+
   logPassingTest(test: Test) {
     this.log(`  - ${test.description} (PASS)`)
   }
 
-  logFailingTest(test: Test, e: Error) {
+  logFailingTest(test: Test) {
     this.log(`  - ${test.description} (FAIL)`)
-    this.log(`      ERROR: ${e.message}`)
+    this.log(`      ERROR: ${test.error.message}`)
   }
  
   private get nestingLevel() {
