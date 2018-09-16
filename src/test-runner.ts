@@ -4,16 +4,18 @@ import { ContextLogger } from "./context-logger.ts"
 
 
 export class TestRunner {
-  logger: ContextLogger = new ContextLogger()
+  constructor(public logger: ContextLogger = new ContextLogger()) {}
   async runTests(context: Context) {
     this.logger.context = context
     this.logger.logDescription()
 
     context.befores.forEach(before => before())
     for (let i = 0; i < context.tests.length; i++) {
-      let test = context.tests[i]
       context.beforeEachs.forEach(beforeEach => beforeEach())
+
+      let test = context.tests[i]
       await test.run()
+      
       this.logger.logTest(test)
     }
 
