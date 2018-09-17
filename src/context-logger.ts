@@ -11,7 +11,7 @@ export class ContextLogger {
   }
 
   logTest(test: Test) {
-    if (test.status === "pass") {
+    if (test.didPass) {
       this.logPassingTest(test)
     } else {
       this.logFailingTest(test)

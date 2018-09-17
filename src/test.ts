@@ -24,4 +24,8 @@ export class Test {
       this.status = TestStatus.fail
     }
   }
+
+  get didPass() {
+    return this.status === TestStatus.pass
+  }
 }
