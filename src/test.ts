@@ -1,9 +1,14 @@
 type Run = () => void | Promise<void>
 
-type TestStatus = "pending" | "running" | "pass" | "fail"
+enum TestStatus { 
+  pending = "pending",
+  running = "running" ,
+  pass = "pass" ,
+  fail = "fail",
+}
 
 export class Test {
-  status: TestStatus = "pending"
+  status: TestStatus = TestStatus.pending
   error: Error | null
 
   constructor(readonly description, readonly callback: Run) {
@@ -12,11 +17,11 @@ export class Test {
 
   async run() {
     try {
-      this.status = "running"
+      this.status = TestStatus.running
       this.callback
-      this.status = "pass"
+      this.status = TestStatus.pass
     } catch(e) {
-      this.status = "fail"
+      this.status = TestStatus.fail
     }
   }
 }
