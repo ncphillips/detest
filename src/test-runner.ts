@@ -1,23 +1,30 @@
 import { Test } from "./test.ts"
 import { Context } from "./context.ts"
 
-interface TestRunnerListener {
-  logDescription(context: Context)
+export interface TestRunnerListener {
+  contextEntered(context: Context)
   logTest(context: Context, test: Test)
 }
 
 export class TestRunner {
   constructor(private listeners: TestRunnerListener[] = []) {}
   async runTests(context: Context) {
-    this.enterContext(context)
+    // contextEntered
+    this.contextEntered(context)
 
+    // contextSetupBegan
     context.befores.forEach(before => before())
+    // contextSetupEnded
     for (let i = 0; i < context.tests.length; i++) {
+      // testSetupBegan
       context.beforeEachs.forEach(beforeEach => beforeEach())
+      // testSetupEnded
 
+      // testStarted
       let test = context.tests[i]
       await test.run()
 
+      // testFinished
       this.testFinished(context, test)
     }
 
@@ -25,10 +32,11 @@ export class TestRunner {
       let nestedContext = context.contexts[i]
       await this.runTests(nestedContext)
     }
+    // contextExited
   }
 
-  enterContext(context: Context) {
-    this.listeners.forEach(l => l.logDescription(context))
+  contextEntered(context: Context) {
+    this.listeners.forEach(l => l.contextEntered(context))
   }
 
   testFinished(context: Context, test: Test) {

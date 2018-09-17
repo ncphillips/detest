@@ -1,8 +1,9 @@
 import { Test } from "./test.ts"
 import { Context } from "./context.ts"
+import { TestRunnerListener } from "./test-runner.ts"
 
-export class ContextLogger {
-  logDescription(context: Context) {
+export class ContextLogger implements TestRunnerListener {
+  contextEntered(context: Context) {
     this.log(context, context.description)
   }
 
