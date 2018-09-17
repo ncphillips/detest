@@ -1,9 +1,13 @@
 import { Test } from "./test.ts"
 import { Context } from "./context.ts"
-import { ContextLogger } from "./context-logger.ts"
+
+interface TestRunnerListener {
+  logDescription(context: Context)
+  logTest(context: Context, test: Test)
+}
 
 export class TestRunner {
-  constructor(public logger: ContextLogger) {}
+  constructor(private listeners: TestRunnerListener[] = []) {}
   async runTests(context: Context) {
     this.enterContext(context)
 
@@ -24,10 +28,10 @@ export class TestRunner {
   }
 
   enterContext(context: Context) {
-    this.logger.logDescription(context)
+    this.listeners.forEach(l => l.logDescription(context))
   }
 
   testFinished(context: Context, test: Test) {
-    this.logger.logTest(context, test)
+    this.listeners.forEach(l => l.logTest(context, test))
   }
 }

@@ -10,7 +10,7 @@ export class TestingFramework {
 
   constructor() {
     this.logger = new ContextLogger()
-    this.testRunner = new TestRunner(this.logger)
+    this.testRunner = new TestRunner([this.logger])
     this.context = new Context("")
     this.activeContext = this.context
   }
