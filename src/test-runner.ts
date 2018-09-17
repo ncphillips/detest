@@ -5,8 +5,7 @@ import { ContextLogger } from "./context-logger.ts"
 export class TestRunner {
   constructor(public logger: ContextLogger = new ContextLogger()) {}
   async runTests(context: Context) {
-    // Smell: I don't think I want the logger to be directly called from here.
-    this.logger.logDescription(context)
+    this.enterContext(context)
 
     context.befores.forEach(before => before())
     for (let i = 0; i < context.tests.length; i++) {
@@ -14,13 +13,21 @@ export class TestRunner {
 
       let test = context.tests[i]
       await test.run()
-      
-      this.logger.logTest(context, test)
+
+      this.testFinished(context, test)
     }
 
     for (let i = 0; i < context.contexts.length; i++) {
       let nestedContext = context.contexts[i]
       await this.runTests(nestedContext)
     }
+  }
+
+  enterContext(context: Context) {
+    this.logger.logDescription(context)
+  }
+
+  testFinished(context: Context, test: Test) {
+    this.logger.logTest(context, test)
   }
 }
