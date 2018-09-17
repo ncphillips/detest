@@ -3,7 +3,7 @@ import { Context } from "./context.ts"
 
 export interface TestRunnerListener {
   contextEntered(context: Context)
-  logTest(context: Context, test: Test)
+  testFinished(context: Context, test: Test)
 }
 
 export class TestRunner {
@@ -40,6 +40,6 @@ export class TestRunner {
   }
 
   testFinished(context: Context, test: Test) {
-    this.listeners.forEach(l => l.logTest(context, test))
+    this.listeners.forEach(l => l.testFinished(context, test))
   }
 }

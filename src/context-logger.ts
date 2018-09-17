@@ -7,7 +7,7 @@ export class ContextLogger implements TestRunnerListener {
     this.log(context, context.description)
   }
 
-  logTest(context: Context, test: Test) {
+  testFinished(context: Context, test: Test) {
     if (test.didPass) {
       this.logPassingTest(context, test)
     } else {
