@@ -1,12 +1,16 @@
 import { Context } from "./context.ts"
 import { TestRunner } from "./test-runner.ts"
+import { ContextLogger } from "./context-logger.ts"
 
 export class TestingFramework {
   context: Context
   activeContext: Context
-  testRunner = new TestRunner() 
+  testRunner: TestRunner
+  logger: ContextLogger
 
   constructor() {
+    this.logger = new ContextLogger()
+    this.testRunner = new TestRunner(this.logger)
     this.context = new Context("")
     this.activeContext = this.context
   }
