@@ -3,7 +3,7 @@ import { Context } from "./context.ts"
 import { ContextLogger } from "./context-logger.ts"
 
 export class TestRunner {
-  constructor(public logger: ContextLogger = new ContextLogger()) {}
+  constructor(public logger: ContextLogger) {}
   async runTests(context: Context) {
     this.enterContext(context)
 
