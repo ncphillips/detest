@@ -4,6 +4,7 @@ import { TestRunner } from "./test-runner.ts"
 export class TestingFramework {
   context: Context
   activeContext: Context
+  testRunner = new TestRunner() 
 
   constructor() {
     this.context = new Context("")
@@ -38,6 +39,6 @@ export class TestingFramework {
   }
 
   runTests = () => {
-    new TestRunner().runTests(this.context)
+    this.testRunner.runTests(this.context)
   }
 }
