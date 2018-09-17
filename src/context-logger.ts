@@ -2,44 +2,35 @@ import { Test } from "./test.ts"
 import { Context } from "./context.ts"
 
 export class ContextLogger {
-  public context: Context | null = null
- 
-  logDescription() {
-    if (this.context) {
-      this.log(this.context.description)
-    }
+  logDescription(context: Context) {
+    this.log(context, context.description)
   }
 
-  logTest(test: Test) {
+  logTest(context: Context, test: Test) {
     if (test.didPass) {
-      this.logPassingTest(test)
+      this.logPassingTest(context, test)
     } else {
-      this.logFailingTest(test)
+      this.logFailingTest(context, test)
     }
   }
 
-  logPassingTest(test: Test) {
-    this.log(`  - ${test.description} (PASS)`)
+  logPassingTest(context: Context, test: Test) {
+    this.log(context, `  - ${test.description} (PASS)`)
   }
 
-  logFailingTest(test: Test) {
-    this.log(`  - ${test.description} (FAIL)`)
-    this.log(`      ERROR: ${test.error.message}`)
+  logFailingTest(context: Context, test: Test) {
+    this.log(context, `  - ${test.description} (FAIL)`)
+    this.log(context, `      ERROR: ${test.error.message}`)
   }
  
-  private get nestingLevel() {
-    if (!this.context) return 0
-    return this.context.nestingLevel
-  }
-
-  private get tabs(): string {
+  private tabs(context: Context): string {
     let t = ""
-    for (let i = 1; i < this.context.nestingLevel; i++) t += "  "
+    for (let i = 1; i < context.nestingLevel; i++) t += "  "
     return t
   }
 
-  private log(message: string) {
-    console.log(`${this.tabs}${message}`)
+  private log(context: Context, message: string) {
+    console.log(`${this.tabs(context)}${message}`)
   }
 
 }
