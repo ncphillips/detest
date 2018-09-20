@@ -8,7 +8,7 @@ export class DescribeItApi {
 
   constructor(private listeners: TestRunnerListener[]) {
     this.testRunner = new TestRunner(this.listeners)
-    this.context = new Context("")
+    this.context = new Context()
     this.activeContext = this.context
   }
 

@@ -7,7 +7,7 @@ export class Context {
   tests: Test[] = []
   contexts: Context[] = []
 
-  constructor(readonly description: string, readonly nestingLevel = 0) {}
+  constructor(readonly description: string = "", readonly nestingLevel = 0) {}
 
   addTest = (description: string, callback: () => void) => {
     this.tests.push(new Test(description, callback))
