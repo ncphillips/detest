@@ -6,11 +6,11 @@ export class TestingFramework {
   context: Context
   activeContext: Context
   testRunner: TestRunner
-  listener: TestRunnerListener
+  listeners: TestRunnerListener[]
 
   constructor() {
-    this.listener = new ContextLogger()
-    this.testRunner = new TestRunner([this.listener])
+    this.listeners = [new ContextLogger()]
+    this.testRunner = new TestRunner(this.listeners)
     this.context = new Context("")
     this.activeContext = this.context
   }
