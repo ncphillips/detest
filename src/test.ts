@@ -18,9 +18,10 @@ export class Test {
   async run() {
     try {
       this.status = TestStatus.running
-      this.callback
+      await this.callback()
       this.status = TestStatus.pass
     } catch(e) {
+      this.error = e
       this.status = TestStatus.fail
     }
   }
