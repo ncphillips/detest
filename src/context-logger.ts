@@ -16,11 +16,11 @@ export class ContextLogger implements TestRunnerListener {
   }
 
   logPassingTest(context: Context, test: Test) {
-    this.log(context, `  - ${test.description} (PASS)`)
+    this.log(context, `  - ${test.description} ✅`)
   }
 
   logFailingTest(context: Context, test: Test) {
-    this.log(context, `  - ${test.description} (FAIL)`)
+    this.log(context, `  - ${test.description} 🔴`)
     this.log(context, `      ERROR: ${test.error.message}`)
   }
  
